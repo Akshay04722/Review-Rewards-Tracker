@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: reviewrewards_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: reviewrewards
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d reviewrewards"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reviewrewards_app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/reviewrewards?schema=public
+      - SEARCH_PROVIDER=mock
+      - ADMIN_TOKEN=admin_secret_token_123
+      - CRAWLER_USER_AGENT=ReviewRewardsBot/1.0 (+https://reviewrewards-tracker.local/bot; contact@reviewrewards.local)
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "npx prisma db push && npx tsx prisma/seed.ts && npm start"
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reviewrewards_worker
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/reviewrewards?schema=public
+      - SEARCH_PROVIDER=mock
+      - ADMIN_TOKEN=admin_secret_token_123
+      - DISCOVERY_CRON=0 */6 * * *
+      - REVERIFY_CRON=0 0 * * *
+      - RUN_CRAWL_ON_STARTUP=true
+      - CRAWLER_USER_AGENT=ReviewRewardsBot/1.0 (+https://reviewrewards-tracker.local/bot; contact@reviewrewards.local)
+    depends_on:
+      postgres:
+        condition: service_healthy
+      app:
+        condition: service_started
+    command: ["npm", "run", "worker"]
+
+volumes:
+  postgres_data:

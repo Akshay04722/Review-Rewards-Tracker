@@ -1,0 +1,30 @@
+{
+  "negativeFilter": "-site:g2.com -site:capterra.com -site:trustradius.com -site:trustpilot.com -site:gartner.com -site:softwareadvice.com -site:getapp.com -site:dealhack.com -site:slickdeals.net -site:g2a.com -g2a -site:facebook.com -site:instagram.com -site:reddit.com -site:youtube.com -site:twitter.com -site:x.com -site:linkedin.com -site:tiktok.com",
+  "queries": [
+    "\"leave a review on G2 get gift card\"",
+    "\"review us on G2 Amazon gift card\"",
+    "\"Capterra review gift card\"",
+    "\"TrustRadius review reward\"",
+    "\"Gartner Peer Insights review gift card\"",
+    "\"write a review get $25\"",
+    "\"review us on G2\" \"gift card\"",
+    "\"review us on Capterra\" \"gift card\"",
+    "\"review on TrustRadius\" \"gift card\"",
+    "\"Software Advice\" review \"gift card\"",
+    "\"review on GetApp\" \"gift card\"",
+    "site:community.*.com \"G2 review gift card\"",
+    "site:help.*.com \"G2 review gift card\"",
+    "site:*.atlassian.net \"G2 review gift card\"",
+    "site:docs.*.com \"G2 review gift card\"",
+    "site:community.*.com \"review\" \"gift card\"",
+    "site:help.*.com \"review\" \"gift card\""
+  ],
+  "temporalQueries": [
+    "\"review us on G2 Amazon gift card {Month} {Year}\"",
+    "\"leave a review on G2 get gift card\" {Month} {Year}",
+    "\"Capterra review gift card\" {Month} {Year}",
+    "\"TrustRadius review reward\" {Year}",
+    "\"Gartner Peer Insights review gift card\" {Year}",
+    "\"G2 review\" \"gift card\" {Year}"
+  ]
+}

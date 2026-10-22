@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Vendor {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  domain    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  campaigns Campaign[]
+}
+
+model Platform {
+  id        String        @id @default(cuid())
+  slug      String        @unique
+  name      String
+  baseUrl   String
+  isActive  Boolean       @default(true)
+  queries   SearchQuery[]
+}
+
+model SearchQuery {
+  id         String    @id @default(cuid())
+  platformId String?
+  platform   Platform? @relation(fields: [platformId], references: [id], onDelete: SetNull)
+  query      String    @unique
+  isActive   Boolean   @default(true)
+  lastRunAt  DateTime?
+  createdAt  DateTime  @default(now())
+}
+
+model Campaign {
+  id                String          @id @default(cuid())
+  vendorId          String
+  vendor            Vendor          @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  productName       String
+  pageTitle         String
+  canonicalUrl      String          @unique
+  platform          String          // G2, Capterra, TrustRadius, GartnerPeerInsights, SoftwareAdvice, GetApp, Trustpilot, Other
+  directCampaignUrl String
+  rewardAmount      Float
+  rewardCurrency    String          @default("USD")
+  rewardType        String          // Amazon, Visa, UberEats, Cash, Donation, Other
+  description       String
+  rewardLimit       String?
+  eligibility       String?
+  deadlineDate      DateTime?
+  status            String          @default("ACTIVE") // ACTIVE, LIKELY_ACTIVE, EXPIRED, UNKNOWN
+  confidence        Float           @default(0.8)
+  statusReason      String?
+  qualityScore      Float           @default(0.8)
+  linkBroken        Boolean         @default(false)
+  evidence          String?         // JSON string: { rewardEvidence, platformEvidence, statusEvidence }
+  consecutiveFails  Int             @default(0)
+  lastCheckedAt     DateTime        @default(now())
+  firstSeenAt       DateTime        @default(now())
+  lastSeenAt        DateTime        @default(now())
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  statusHistory     StatusHistory[]
+
+  @@index([status])
+  @@index([platform])
+  @@index([rewardAmount])
+  @@index([createdAt])
+  @@index([qualityScore])
+}
+
+model StatusHistory {
+  id             String   @id @default(cuid())
+  campaignId     String
+  campaign       Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  previousStatus String?
+  newStatus      String
+  confidence     Float
+  reason         String
+  checkedAt      DateTime @default(now())
+
+  @@index([campaignId])
+}
+
+model RejectedUrl {
+  id        String   @id @default(cuid())
+  url       String   @unique
+  reason    String
+  checkedAt DateTime @default(now())
+
+  @@index([checkedAt])
+  @@index([url])
+}
+
+model CrawlRun {
+  id              String    @id @default(cuid())
+  trigger         String    @default("SCHEDULED") // SCHEDULED, MANUAL, CLI
+  status          String    @default("RUNNING")   // RUNNING, COMPLETED, FAILED
+  startedAt       DateTime  @default(now())
+  endedAt         DateTime?
+  searchesUsed    Int       @default(0)
+  totalCandidates Int       @default(0)
+  droppedCount    Int       @default(0)
+  rejectedCount   Int       @default(0)
+  extractedCount  Int       @default(0)
+  verifiedCount   Int       @default(0)
+  savedCount      Int       @default(0)
+  errorCount      Int       @default(0)
+  dropReasons     String?   // JSON string of { [reason: string]: number }
+  statusCounts    String?   // JSON string of { [status: string]: number }
+  logs            String?   // JSON string of crawl details and failed URLs
+  createdAt       DateTime  @default(now())
+}
+
+model SearchCache {
+  id        String   @id @default(cuid())
+  cacheKey  String   @unique
+  query     String
+  results   String   // JSON string of SearchResultItem[]
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([cacheKey])
+  @@index([expiresAt])
+}

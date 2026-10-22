@@ -1,0 +1,82 @@
+[
+  {
+    "url": "https://hyperglance.com/review/",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "Hyperglance G2 review reward"
+  },
+  {
+    "url": "https://revverdocs.com/reviews/",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "Revver review incentive"
+  },
+  {
+    "url": "https://celoxis.com/article/review-guidelines",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "Celoxis review guidelines reward"
+  },
+  {
+    "url": "https://summithq.com/review-g2/",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "SummitHQ G2 review reward"
+  },
+  {
+    "url": "https://netgain.tech/docs/write-a-g2-review",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "Netgain docs G2 review reward"
+  },
+  {
+    "url": "https://engine.com/terms/g2-review-incentive",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "Engine terms G2 review incentive"
+  },
+  {
+    "url": "https://omnisend.com/g2-review/",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "Omnisend G2 review incentive"
+  },
+  {
+    "url": "https://claap.io/g2-review",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "Claap G2 review incentive"
+  },
+  {
+    "url": "https://help.carbone.io/en-us/article/review-carbone-get-an-amazon-gift-card-18tn71r/",
+    "expected": "ACTIVE_OR_LIKELY",
+    "notes": "Carbone help article review incentive"
+  },
+  {
+    "url": "https://robohead.net/review-on-g2/",
+    "expected": "EXPIRED",
+    "notes": "RoboHead review on G2 (deadline Aug 12, 2026 / dead host / ended)"
+  },
+  {
+    "url": "https://xero.com/us/campaign/rate-xero-review/",
+    "expected": "EXPIRED",
+    "notes": "Xero review campaign (ended 30 September)"
+  },
+  {
+    "url": "https://community.forwardnetworks.com",
+    "expected": "EXPIRED",
+    "notes": "Forward Networks community review (deadline Nov 15, 2025 / past deadline)"
+  },
+  {
+    "url": "https://dealhack.com/coupons/g2a",
+    "expected": "REJECTED",
+    "notes": "Coupon deal site / G2A gaming key site"
+  },
+  {
+    "url": "https://slickdeals.net/deals/gift-cards/",
+    "expected": "REJECTED",
+    "notes": "Coupon deal site"
+  },
+  {
+    "url": "https://famewall.io/blog/how-to-get-reviews-on-g2/",
+    "expected": "REJECTED",
+    "notes": "Blog post on how to get more reviews"
+  },
+  {
+    "url": "https://documentation.g2.com/",
+    "expected": "REJECTED",
+    "notes": "G2 own documentation/marketing page"
+  }
+]
